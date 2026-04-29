@@ -151,8 +151,7 @@ Tag patch releases (v0.X.Y) for tiny additive fixes; minor releases (v0.X.0) for
 |---|---|
 | Quick start, installation, planned API | `README.md` |
 | How the bridge / vendoring works | `CLAUDE.md` (this file) |
-| Initial implementation prompt | `docs/INITIAL_IMPLEMENTATION.md` |
-| Vendoring procedure | `docs/VENDORING.md` (write when first vendoring) |
+| Vendoring procedure | `docs/VENDORING.md` |
 | Release-by-release history | `docs/CHANGELOG.md` |
 | Per-algorithm design notes | `docs/algorithms/<name>.md` (write per-algorithm) |
 | License attributions | `NOTICE.md` |
