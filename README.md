@@ -17,11 +17,9 @@ OCCTSwift itself stays focused on its mission as an OCCT wrapper. Mesh algorithm
 
 ## Status
 
-🏗️ **Pre-alpha — wrapper not yet implemented.** See [issue #1](https://github.com/gsdali/OCCTSwiftMesh/issues/1) for the implementation plan.
+✅ **v0.1.0** ships `Mesh.simplified(_:)` backed by vendored [meshoptimizer](https://github.com/zeux/meshoptimizer) v1.1. Requires OCCTSwift v0.156.2 or later. See [docs/CHANGELOG.md](docs/CHANGELOG.md) and [docs/algorithms/decimation.md](docs/algorithms/decimation.md).
 
-The initial release will ship `Mesh.simplified(_:)` backed by [meshoptimizer](https://github.com/zeux/meshoptimizer)'s QEM decimator. See [docs/INITIAL_IMPLEMENTATION.md](docs/INITIAL_IMPLEMENTATION.md) for the full spec.
-
-## Planned API (v0.1.0)
+## API
 
 ```swift
 import OCCTSwift
@@ -41,7 +39,7 @@ if let result = simplified {
 }
 ```
 
-## Installation (planned)
+## Installation
 
 ```swift
 // Package.swift
@@ -60,7 +58,7 @@ targets: [
 
 ## License
 
-LGPL-2.1, matching OCCTSwift. Vendored components retain their own permissive licenses (notably meshoptimizer under BSD-2-Clause). See [NOTICE.md](NOTICE.md).
+LGPL-2.1, matching OCCTSwift. Vendored components retain their own permissive licenses (notably meshoptimizer under MIT). See [NOTICE.md](NOTICE.md).
 
 ## Roadmap
 

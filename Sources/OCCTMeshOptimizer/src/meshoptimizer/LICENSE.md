@@ -1,22 +1,6 @@
-# NOTICE
-
-OCCTSwiftMesh is licensed under LGPL-2.1 (see [LICENSE](LICENSE)).
-
-This product includes third-party software with the following permissive licenses. Each is compatible with LGPL-2.1 and is included in source form under `Sources/OCCTMeshOptimizer/src/`.
-
-## meshoptimizer
-
-- **Upstream:** https://github.com/zeux/meshoptimizer
-- **License:** MIT
-- **Used for:** quadric error metric (QEM) mesh decimation
-- **Vendored version:** v1.1 (last vendored 2026-04-29)
-
-The full upstream LICENSE text is preserved verbatim under `Sources/OCCTMeshOptimizer/src/meshoptimizer/LICENSE.md`.
-
-```
 MIT License
 
-Copyright (c) 2016-2025 Arseny Kapoulkine
+Copyright (c) 2016-2026 Arseny Kapoulkine
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,4 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```

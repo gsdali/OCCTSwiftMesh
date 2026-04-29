@@ -20,6 +20,10 @@ Your App
 
 Provide a single canonical implementation of mesh-domain algorithms that all OCCTSwift consumers (OCCTSwiftScripts, OCCTMCP, OCCTDesignLoop, UnfoldEngine, app code) can depend on. Avoid the failure mode of every consumer reimplementing OCCTSwift `Mesh` ↔ low-level-vertex-array marshalling locally.
 
+## Current State
+
+**Pre-alpha scaffold — no algorithms implemented yet.** The bridge has only a placeholder `OCCTMeshOptimizerABIVersion()` symbol; meshoptimizer is not yet vendored; `Mesh.simplified(_:)` does not exist. The full v0.1.0 implementation plan is in [`docs/INITIAL_IMPLEMENTATION.md`](docs/INITIAL_IMPLEMENTATION.md) — start there.
+
 ## Architecture
 
 Three-layer wrapper, mirroring OCCTSwift's pattern:
@@ -33,6 +37,8 @@ Tests/OCCTSwiftMeshTests/   Swift Testing framework (@Suite / @Test)
 ```
 
 The bridge target compiles meshoptimizer directly. No system dependencies; SPM `swift build` produces a fully self-contained library.
+
+**Platform floor:** macOS 12+, iOS 15+. **C++ standard:** C++17 (`cxxLanguageStandard: .cxx17`). **`MESHOPTIMIZER_NO_EXPERIMENTAL`** is defined to `0` (experimental meshoptimizer APIs enabled) — this is intentional for the QEM-with-Hausdorff path. The SPM target uses `sources: ["src"]`, which compiles all `.cpp` files under `src/` recursively — meshoptimizer's own files are picked up automatically once vendored there.
 
 ### Vendored components
 
@@ -82,6 +88,7 @@ Pattern (follow exactly for each new algorithm):
 
 ### Swift API style
 
+- The package compiles under **Swift 6 strict concurrency** (`.swiftLanguageMode(.v6)`). All new types must satisfy the compiler's actor-isolation and `Sendable` requirements without suppressions unless genuinely needed.
 - Mirror OCCTSwift's conventions where applicable: `Sendable` on value types; `@unchecked Sendable` on classes that wrap C handles; static factories preferred over throwing inits where the operation might fail (return optionals or `Result`-style structs).
 - Options structs use `public var` properties so consumers can build them up via mutating assignment OR pass via `.init(...)`.
 - Result structs are immutable (`public let`) once constructed.

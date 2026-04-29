@@ -14,9 +14,11 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // Pinned to v0.156.0 — first release that exposes Mesh vertex/index getters
-        // we depend on. Bump when consuming new OCCTSwift surface.
-        .package(url: "https://github.com/gsdali/OCCTSwift.git", from: "0.156.0"),
+        // Pinned to v0.156.2 — first release that exposes the public
+        // Mesh(vertices:normals:indices:) initializer (issue OCCTSwift#94)
+        // that Mesh.simplified(_:) needs to wrap its raw output. Bump when
+        // consuming new OCCTSwift surface.
+        .package(url: "https://github.com/gsdali/OCCTSwift.git", from: "0.156.2"),
     ],
     targets: [
         // Public Swift API: Mesh.simplified(_:) and friends.
@@ -32,12 +34,16 @@ let package = Package(
             ]
         ),
 
-        // C++ bridge target that vendors meshoptimizer (BSD-2-Clause).
+        // C++ bridge target that vendors meshoptimizer (MIT).
         // All of meshoptimizer's .cpp files compile here; the wrapper
         // exposes a small C ABI to the Swift layer.
         .target(
             name: "OCCTMeshOptimizer",
             path: "Sources/OCCTMeshOptimizer",
+            exclude: [
+                "src/README.md",
+                "src/meshoptimizer/LICENSE.md",
+            ],
             sources: ["src"],
             publicHeadersPath: "include",
             cxxSettings: [
@@ -51,7 +57,7 @@ let package = Package(
         // Tests
         .testTarget(
             name: "OCCTSwiftMeshTests",
-            dependencies: ["OCCTSwiftMesh"],
+            dependencies: ["OCCTSwiftMesh", "OCCTMeshOptimizer"],
             path: "Tests/OCCTSwiftMeshTests"
         ),
     ],
