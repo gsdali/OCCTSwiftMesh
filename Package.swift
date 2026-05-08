@@ -14,11 +14,11 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // Pinned to v0.156.2 — first release that exposes the public
-        // Mesh(vertices:normals:indices:) initializer (issue OCCTSwift#94)
-        // that Mesh.simplified(_:) needs to wrap its raw output. Bump when
-        // consuming new OCCTSwift surface.
-        .package(url: "https://github.com/gsdali/OCCTSwift.git", from: "0.156.2"),
+        // SemVer-stable from OCCTSwift v1.0.0 (OCCT 8.0.0 GA, 2026-05-07).
+        // v0.156.2 was the original pin — first release exposing the public
+        // Mesh(vertices:normals:indices:) initializer (OCCTSwift#94) that
+        // Mesh.simplified(_:) needs to wrap its raw output. v1.0.x preserves it.
+        .package(url: "https://github.com/gsdali/OCCTSwift.git", from: "1.0.1"),
     ],
     targets: [
         // Public Swift API: Mesh.simplified(_:) and friends.
