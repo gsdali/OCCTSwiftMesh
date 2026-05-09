@@ -2,6 +2,8 @@
 
 Mesh-domain algorithms for the [OCCTSwift](https://github.com/gsdali/OCCTSwift) ecosystem. Operates on `OCCTSwift.Mesh` instances; complements the OCCT-side topology kernel rather than extending it.
 
+Part of the [OCCTSwift ecosystem](https://github.com/gsdali/OCCTSwift/blob/main/docs/ecosystem.md) — see the ecosystem map for how this package fits with the kernel, viewport, and sibling layers.
+
 ```
 OCCTSwift           — B-Rep solid modelling kernel (wraps OpenCASCADE)
 OCCTSwiftMesh       — mesh-domain algorithms (decimation, smoothing, repair, ...)
@@ -17,7 +19,7 @@ OCCTSwift itself stays focused on its mission as an OCCT wrapper. Mesh algorithm
 
 ## Status
 
-✅ **v0.1.0** ships `Mesh.simplified(_:)` backed by vendored [meshoptimizer](https://github.com/zeux/meshoptimizer) v1.1. Requires OCCTSwift v0.156.2 or later. See [docs/CHANGELOG.md](docs/CHANGELOG.md) and [docs/algorithms/decimation.md](docs/algorithms/decimation.md).
+✅ **v1.0.0** — SemVer-stable. Ships `Mesh.simplified(_:)` backed by vendored [meshoptimizer](https://github.com/zeux/meshoptimizer) v1.1. Requires OCCTSwift v1.0.0 or later. See [docs/CHANGELOG.md](docs/CHANGELOG.md) and [docs/algorithms/decimation.md](docs/algorithms/decimation.md).
 
 ## API
 
