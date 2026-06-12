@@ -2,6 +2,37 @@
 
 All notable changes to OCCTSwiftMesh.
 
+## v1.1.0 — `Mesh.crossSection(plane:)` planar slicing
+
+Adds a mesh **slicer**: intersect a mesh with a plane and recover the closed
+contours where it cuts the surface — the perimeter step a 3D-printer slicer
+performs. Pure geometry (no OCCT kernel calls), so it works directly on the
+**open and unwelded** meshes that raw STL/scan bodies actually are, where sewing
+to a B-Rep first would fail.
+
+```swift
+let section = mesh.crossSection(plane: CutPlane(point: p, normal: n))
+// section.contours: closed loops, each classified by nesting:
+//   depth 0 = outer solid boundary, depth 1 = a hole (inner wall / pocket), …
+// A thin-walled tube → two separate loops; wall thickness = their offset.
+let stack = mesh.crossSections(axis: axis, through: p, spacing: 2.0)  // slicer layer stack
+```
+
+- Intersection points welded by quantized world position (`weld:` tolerance,
+  auto-derived from bbox), so coincident crossings chain even on unwelded STL.
+- Inner-vs-outer comes from **contour nesting** (containment + signed area),
+  not triangle winding — reliable on meshes with inconsistent orientation.
+- Orientation normalized: even nesting depth CCW, odd CW.
+- Open polylines (plane exits through a boundary edge) returned separately in
+  `openPaths`.
+
+New public types: `CutPlane`, `MeshContour`, `MeshCrossSection`.
+
+## v1.0.0 — SemVer-stable
+
+Promoted `Mesh.simplified(_:)` to a stable 1.0 line; pinned to OCCTSwift v1.0.1
+(OCCT 8.0.0 GA). No API change from v0.1.0.
+
 ## v0.1.0 — `Mesh.simplified(_:)` via vendored meshoptimizer
 
 Initial release. QEM mesh decimation backed by [meshoptimizer](https://github.com/zeux/meshoptimizer) v1.1 (MIT, vendored under `Sources/OCCTMeshOptimizer/src/meshoptimizer/`).

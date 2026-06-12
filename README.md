@@ -19,9 +19,11 @@ OCCTSwift itself stays focused on its mission as an OCCT wrapper. Mesh algorithm
 
 ## Status
 
-✅ **v1.0.0** — SemVer-stable. Ships `Mesh.simplified(_:)` backed by vendored [meshoptimizer](https://github.com/zeux/meshoptimizer) v1.1. Requires OCCTSwift v1.0.0 or later. See [docs/CHANGELOG.md](docs/CHANGELOG.md) and [docs/algorithms/decimation.md](docs/algorithms/decimation.md).
+✅ **v1.1.0** — SemVer-stable. Ships `Mesh.simplified(_:)` (decimation, vendored [meshoptimizer](https://github.com/zeux/meshoptimizer) v1.1) and `Mesh.crossSection(plane:)` (planar slicing into closed contours). Requires OCCTSwift v1.0.1 or later. See [docs/CHANGELOG.md](docs/CHANGELOG.md).
 
 ## API
+
+### Decimation — `Mesh.simplified(_:)`
 
 ```swift
 import OCCTSwift
@@ -41,12 +43,31 @@ if let result = simplified {
 }
 ```
 
+### Slicing — `Mesh.crossSection(plane:)`
+
+Intersect a mesh with a plane and recover the closed contours where it cuts the
+surface — the perimeter step a 3D-printer slicer performs. Works directly on
+**open / unwelded** scan meshes (no B-Rep sewing first). A thin-walled tube
+slices into separate outer and inner loops, so wall thickness is just their
+offset; inner-vs-outer comes from contour nesting, not triangle winding.
+
+```swift
+let section = mesh.crossSection(plane: CutPlane(point: p, normal: n))
+for c in section!.contours {
+    // c.depth == 0 → outer solid boundary; c.isHole → inner wall / pocket
+    print(c.points.count, "pts, area", c.area, c.isHole ? "(hole)" : "")
+}
+
+// Or a whole slicer layer stack along an axis:
+let stack = mesh.crossSections(axis: axis, through: p, spacing: 2.0)
+```
+
 ## Installation
 
 ```swift
 // Package.swift
 dependencies: [
-    .package(url: "https://github.com/gsdali/OCCTSwiftMesh.git", from: "0.1.0"),
+    .package(url: "https://github.com/gsdali/OCCTSwiftMesh.git", from: "1.1.0"),
 ],
 targets: [
     .target(
