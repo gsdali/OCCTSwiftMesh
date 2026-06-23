@@ -1,0 +1,17 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "OCCTSwiftMesh",
+  "description": "Mesh-domain algorithms for the OCCTSwift ecosystem. Adds quadric-error-metric (QEM) decimation that reports its achieved Hausdorff error, and planar cross-sectioning that recovers a slice's closed, nested contours like a 3D-printer slicer. Pure-Swift over OCCTSwift's Mesh type, robust on open / unwelded scan meshes.",
+  "folders": ["docs", "Sources/OCCTSwiftMesh"],
+  "excludeFolders": ["Tests", ".build"],
+  "rules": [
+    "Import both modules: `import OCCTSwift` (for the `Mesh` type and `Shape.mesh()`) and `import OCCTSwiftMesh` (for the algorithms).",
+    "The `Mesh` value type is declared in `OCCTSwift` and re-exported here; OCCTSwiftMesh adds its public surface as extension methods on `Mesh` plus the value types each algorithm returns — there is no free-standing API beyond the `OCCTSwiftMesh` namespace marker (which only carries `OCCTSwiftMesh.version`).",
+    "Decimate with `mesh.simplified(_:)` taking a `Mesh.SimplifyOptions`; it returns an optional `SimplifiedMesh` (`nil` on invalid options or empty input). Set EXACTLY ONE of `targetTriangleCount` (Int, in [1, input.triangleCount]) or `targetReduction` (Double fraction to remove, in [0,1]); both or neither returns nil. Optional `preserveBoundary` (default true), `preserveTopology` (default true, always honoured today), and `maxHausdorffDistance` (>= 0).",
+    "`SimplifiedMesh` reports `mesh`, `beforeTriangleCount`, `afterTriangleCount`, and `hausdorffDistance` (the achieved deviation, absolute, in input mesh units, reported on every successful call). `afterTriangleCount` is a soft target — it can overshoot the requested count when topology preservation or the Hausdorff cap stops collapsing early.",
+    "Slice with `mesh.crossSection(plane:minLoopArea:weld:)` taking a `CutPlane(point:normal:)` (normal need not be unit length; or `CutPlane.perpendicular(to:offset:)`). Returns an optional `MeshCrossSection` (`nil` if the plane misses the mesh).",
+    "A `MeshCrossSection` carries the plane basis (`origin`/`normal`/`uAxis`/`vAxis`), `contours: [MeshContour]` (closed loops), `openPaths` (polylines where the plane exits a boundary edge), `outerContours` (depth-0 loops), and `worldPoint(_:)` to lift a 2D (u,v) loop point back to 3D.",
+    "Each `MeshContour` is classified by NESTING, not triangle winding: `depth` (0 = outer solid boundary, 1 = hole/inner wall, ...), `isHole` (== depth % 2 == 1), `parent`, `signedArea` (CCW positive, normalized: even depth CCW, odd CW), `area`, `perimeter`, `bounds`, and `points` in plane (u,v) coordinates. A thin-walled tube slices into two separate nested loops — wall thickness is their offset.",
+    "Build a whole slicer layer stack with `mesh.crossSections(axis:through:spacing:margin:)`; `spacing` must be > 0, `margin` defaults to spacing/2 to inset the first/last slice off the end caps, and sections that miss the mesh are skipped."
+  ]
+}
