@@ -37,3 +37,7 @@ meshoptimizer upstream, and OpenCASCADE.
 - Vendors [meshoptimizer](https://github.com/zeux/meshoptimizer) v1.1 (MIT) via the
   `OCCTMeshOptimizer` C++ bridge target.
 - LGPL-2.1, matching OCCTSwift; vendored components retain their own permissive licenses.
+
+## Policies
+
+- [Query `context` first for OCCT / OCCTSwift docs](policies/context-first.md)
